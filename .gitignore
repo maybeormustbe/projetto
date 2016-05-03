@@ -1,0 +1,5 @@
+node_modules
+public/bower_components
+toremove
+svg_data_*
+build

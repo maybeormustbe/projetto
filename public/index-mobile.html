@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en" ng-app="todomvc" data-framework="firebase">
+
+<head>
+    <meta charset="utf-8">
+    <title>TasKo</title>
+    <!-- build:css style.css -->
+    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" />
+    <link rel="stylesheet" href="./bower_components/startbootstrap-sb-admin-2/dist/css/timeline.css" />
+    <link rel="stylesheet" href="./bower_components/metisMenu/dist/metisMenu.min.css" />
+    <link rel="stylesheet" href="./node_modules/angular-ui-bootstrap/ui-bootstrap-csp.css" />
+    <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="./css/todo.css" />
+    <link rel="stylesheet" href="./bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
+    <link rel="stylesheet" href="./bower_components/angular-gantt/dist/angular-gantt.min.css" />
+    <link rel="stylesheet" href="./bower_components/angular-gantt/dist/angular-gantt-plugins.min.css" />
+    <link rel="stylesheet" href="./bower_components/angular-ui-select/dist/select.min.css">
+    <link rel="stylesheet" href="./extlib/select2.css">
+    <!-- endbuild -->
+    <style>
+    [ng-cloak] {
+        display: none;
+    }
+    </style>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+
+    <!-- CONFIGURATION -->
+
+    <!-- Allow web app to be run in full-screen mode. -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Make the app title different than the page title. -->
+    <meta name="apple-mobile-web-app-title" content="Tasko">
+
+    <!-- Configure the status bar. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+
+    <!-- Set the viewport. -->
+    <meta name="viewport" content="initial-scale=1">
+
+    <!-- Disable automatic phone number detection. -->
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- ICONS -->
+
+    <!-- iPad retina icon -->
+    <link href="https://placehold.it/152" sizes="152x152" rel="apple-touch-icon-precomposed">
+
+    <!-- iPad retina icon (iOS < 7) -->
+    <link href="https://placehold.it/144" sizes="144x144" rel="apple-touch-icon-precomposed">
+
+    <!-- iPad non-retina icon -->
+    <link href="https://placehold.it/76" sizes="76x76" rel="apple-touch-icon-precomposed">
+
+    <!-- iPad non-retina icon (iOS < 7) -->
+    <link href="https://placehold.it/72" sizes="72x72" rel="apple-touch-icon-precomposed">
+
+    <!-- iPhone 6 Plus icon -->
+    <link href="https://placehold.it/180" sizes="120x120" rel="apple-touch-icon-precomposed">
+
+    <!-- iPhone retina icon (iOS < 7) -->
+    <link href="https://placehold.it/114" sizes="114x114" rel="apple-touch-icon-precomposed">
+
+    <!-- iPhone non-retina icon (iOS < 7) -->
+    <link href="https://placehold.it/57" sizes="57x57" rel="apple-touch-icon-precomposed">
+
+    <!-- STARTUP IMAGES -->
+
+    <!-- iPad retina portrait startup image -->
+    <link href="https://placehold.it/1536x2008" media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 2)
+                 and (orientation: portrait)" rel="apple-touch-startup-image">
+
+    <!-- iPad retina landscape startup image -->
+    <link href="https://placehold.it/1496x2048" media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 2)
+                 and (orientation: landscape)" rel="apple-touch-startup-image">
+
+    <!-- iPad non-retina portrait startup image -->
+    <link href="https://placehold.it/768x1004" media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 1)
+                 and (orientation: portrait)" rel="apple-touch-startup-image">
+
+    <!-- iPad non-retina landscape startup image -->
+    <link href="https://placehold.it/748x1024" media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 1)
+                 and (orientation: landscape)" rel="apple-touch-startup-image">
+
+    <!-- iPhone 6 Plus portrait startup image -->
+    <link href="https://placehold.it/1242x2148" media="(device-width: 414px) and (device-height: 736px)
+                 and (-webkit-device-pixel-ratio: 3)
+                 and (orientation: portrait)" rel="apple-touch-startup-image">
+
+    <!-- iPhone 6 Plus landscape startup image -->
+    <link href="https://placehold.it/1182x2208" media="(device-width: 414px) and (device-height: 736px)
+                 and (-webkit-device-pixel-ratio: 3)
+                 and (orientation: landscape)" rel="apple-touch-startup-image">
+
+    <!-- iPhone 6 startup image -->
+    <link href="https://placehold.it/750x1294" media="(device-width: 375px) and (device-height: 667px)
+                 and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+    <!-- iPhone 5 startup image -->
+    <link href="https://placehold.it/640x1096" media="(device-width: 320px) and (device-height: 568px)
+                 and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+    <!-- iPhone < 5 retina startup image -->
+    <link href="https://placehold.it/640x920" media="(device-width: 320px) and (device-height: 480px)
+                 and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+    <!-- iPhone < 5 non-retina startup image -->
+    <link href="https://placehold.it/320x460" media="(device-width: 320px) and (device-height: 480px)
+                 and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+
+    <!-- HACKS -->
+
+    <!-- Prevent text size change on orientation change. -->
+    <style>
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+    </style>
+
+
+    <link rel="shortcut icon" href="icons/addressbook.ico">
+</head>
+
+<body ng-controller="TodoCtrl">
+    <div class="container-fluid">
+        <!--show nav bar in normal and project view -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="authData && !item" style="margin-bottom: 0">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <!-- small screen nav toggle -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">TasKoMobile  {{dataloaded ? '(connected)' : '(connecting ...)'}}</a>
+                </div>
+
+                <div id="navbar" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" ng-click="archiveCompletedItems()">Archive all
+                                completed</a>
+                                </li>
+                                <li><a href="" ng-click="manageItems('project', 'Projets')">Organiser les projects</a>
+                                </li>
+                                <li><a href="" ng-click="manageItems('avecqui', 'Personnes')">Organiser les personnes</a>
+                                </li>
+                                <li><a href="" ng-click="manageItems('tag', 'Tags')">Organiser les tags</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown-submenu"><a href="">Supprimer une liste préparametrée</a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="name in listNamedPrefs()"><a href="" ng-click="deleteNamedPref(name)">{{name}}</a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="dropdown ">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Source : {{source}}<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="" ng-click="changeSource('archive')">Archives</a>
+                                </li>
+                                <li><a href="" ng-click="changeSource('alive')">Alives</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle fa fa-user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <p>Logged as {{authData.password.email}}</p>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="" ng-click="addUser()"><i class="fa fa-plus-circle fa-fw">Add user</i></a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="" ng-click="auth.$unauth()"><i class="fa fa-sign-out fa-fw">Log out</i></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid contentoffset" ng-if="authData && (!item) && (view.type=='list')">
+            <br>
+            <div class="row">
+                <div ng-repeat="listId in [0]">
+                    <div ng-include="'itemList'" ng-if="filter[0]"></div>
+                    <div ng-include="'wideList'" ng-if="!filter[listId]"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid contentoffset" ng-if="!authData">
+            <div class="row">
+                <br>
+                <br>
+                <div class="well well-md col-xs-0 col-offset-4 col-offset-4 col-lg-offset-3 col-lg-6 ">
+                    <h3>Login before use !</h3>
+                    <form class="form-inline" role="form" ng-submit="loginDo()">
+                        <div class="form-group">
+                            <label class="sr-only">Email</label>
+                            <input type="email" class="form-control" placeholder="Email" ng-model="user.email">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only">password</label>
+                            <input type="password" class="form-control" placeholder="password" ng-model="user.password">
+                        </div>
+                    </form>
+                    <br>
+                    <br>
+
+                    <p ng-if="message">Message: <strong>{{ message }}</strong>
+                    </p>
+
+                    <p ng-if="error">Error: <strong>{{ error }}</strong>
+                    </p>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary" type="button" ng-click="loginDo()">Log in</button>
+                        <button class="btn btn-warning" type="button" ng-click="loginCancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- build:extjs extlib.js -->
+    <script type="text/javascript" src="./bower_components/lodash/dist/lodash.min.js"></script>
+    <script type="text/javascript" src="./node_modules/ua-parser-js/dist/ua-parser.min.js"></script>
+    <script type="text/javascript" src="./bower_components/firebase/firebase.js"></script>
+
+    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+    <script type="text/javascript" src="./bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <script type="text/javascript" src="./node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-touch/angular-touch.min.js"></script>
+    <script type="text/javascript" src="./node_modules/angular-ui-bootstrap/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="./node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script type="text/javascript" src="./bower_components/ngDraggable/ngDraggable.js"></script>
+    <script type="text/javascript" src="./bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-moment/angular-moment.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-ui-tree/dist/angular-ui-tree.min.js"></script>
+    <!-- remove in mobile version when usemin and preprocess work together-->
+    <script type="text/javascript" src="./bower_components/angular-gantt/dist/angular-gantt.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-gantt/dist/angular-gantt-plugins.min.js"></script>
+    <!-- end of remove -->
+    <script type="text/javascript" src="./bower_components/angular-ui-select/dist/select.js"></script>
+    <script type="text/javascript" src="./node_modules/marked/lib/marked.js"></script>
+    <script type="text/javascript" src="./node_modules/angular-marked/dist/angular-marked.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="./bower_components/ngstorage/ngStorage.min.js"></script>
+    <script type="text/javascript" src="./bower_components/ngGeolocation/ngGeolocation.min.js"/>
+    <script type="text/javascript" src="./js/ext/ResizeSensor.js"></script>
+    <script type="text/javascript" src="./js/ext/ElementQueries.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:myjs  lib.js-->
+    <script src="js/controllers/todoCtrl.js"></script>
+    <!-- endbuild -->
+
+    <script type="text/ng-template" id="NewValueModalContent.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Enter new value for {{field}}</h4>
+        </div>
+        <div class="modal-body">
+            <input class="form-control" placeholder="Nouvelle valeur ?" ng-model="ret.value" autofocus>
+            <div class="checkbox" ng-if="enableParent">
+                <label>
+                    <input type="checkbox" ng-model="chooseParent">Rattacher à un parent
+                </label>
+                <div ng-if="chooseParent">
+                    <label>Parent</label>
+                    <select class="form-control" ng-model="ret.parent" class="selectpicker form-control" data-live-search="true" title="Sujet">
+                        <option ng-repeat="it in datas[field] |filter : '!!' | orderBy : 'name'">{{it.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="ManageUserModalContent.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Create new User</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <label class="sr-only">Email</label>
+                    <input type="email" class="form-control" placeholder="Email" ng-model="email">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">password</label>
+                    <input type="password" class="form-control" placeholder="password" ng-model="password">
+                </div>
+            </div>
+            <br>
+            <br>
+
+            <button ng-click="createUser()">Create User</button>
+
+            <br>
+            <br>
+
+            <button ng-click="removeUser()">Remove User</button>
+
+            <p ng-if="message">Message: <strong>{{ message }}</strong>
+            </p>
+
+            <p ng-if="error">Error: <strong>{{ error }}</strong>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+
+    </script>
+
+    <!--one todo item detail to edit-->
+    <script type="text/ng-template" id="edit">
+
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <div class="panel panel-default">
+                        <div class="panel-body">
+                            <textarea class="form-control" placeholder="Add description" ng-model="todo.description" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-12 col-xs-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-lg-3 col-xs-3 col-md-3 col-sm-3" for="type">Type</label>
+                        <div class="col-xs-8 col-md-8 col-lg-8">
+                            <select class="form-control" ng-model="todo.type" id="type" ng-change="simpleValueChanged(todo)" class="selectpicker form-control" data-live-search="true" title="Type">
+                                <option ng-repeat="type in types | orderBy : 'toString()'">{{type}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-lg-3 col-xs-3 col-md-3 col-sm-3" for="status">Status</label>
+                        <div class="col-xs-8 col-md-8 col-lg-8">
+                            <select class="form-control" ng-model="todo.status" id="status" ng-change="simpleValueChanged(todo)" class="selectpicker form-control" data-live-search="true" title="Type">
+                                <option ng-repeat="status in statuses[todo.type] | orderBy : 'toString()'">{{status}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-lg-3 col-xs-3 col-md-3" for="project">Projet</label>
+                        <div class="col-xs-8 col-md-8 col-lg-8">
+                            <select class="form-control" ng-model="todo.project" ng-change="simpleValueChanged(todo)" id="project" class="selectpicker form-control" data-live-search="true" title="Qui fait ?">
+                                <option ng-repeat="project in datas.project |filter : '!!' | orderBy : 'name'">{{project.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-lg-3 col-xs-3 col-md-3" for="actor">Qui fait ?</label>
+                        <div class="col-xs-8 col-md-8 col-lg-8">
+                            <select class="form-control" ng-model="todo.actor" ng-change="simpleValueChanged(todo)" id="actor" class="selectpicker form-control" data-live-search="true" title="Qui fait ?">
+                                <option ng-repeat="person in datas.avecqui |filter : '!!' | orderBy : 'name'">{{person.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <ui-select multiple tagging="transformTag" ng-model="todo.avecqui" theme="select2" on-remove="remove('avecqui', todo)" on-select="selectNew('avecqui', todo, $item)" title="Avec qui ?" style="min-width: 300px;">
+                        <ui-select-match placeholder="Participant ?">Participant : {{$item.name}}</ui-select-match>
+                        <ui-select-choices repeat="person.name as person in datas.avecqui |filter : '!!' | orderBy : 'name' | filter: $select.search">
+                            <div ng-bind-html="person.name | highlight: $select.search"></div>
+                            <small>
+                            <i class="fa fa-user"/>  {{person.name}}
+                        </small>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <ui-select multiple tagging="transformTag" ng-model="todo.tag" on-remove="remove('tag', todo)" on-select="selectNew('tag', todo, $item)" theme="select2" title="Tags ?" style="min-width: 300px;">
+                        <ui-select-match placeholder="Tags ?">tag : {{$item.name}}</ui-select-match>
+                        <ui-select-choices repeat="tag.name as tag in datas.tag |filter : '!!' | orderBy : 'name' | filter: $select.search">
+                            <div ng-bind-html="tag.name | highlight: $select.search"></div>
+                            <small>
+                            <i class="fa fa-tag"/>  {{tag.name}}
+                        </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-inline">
+                    <div class="form-group col-sm-6 col-xs-6 col-md-6 col-sm-6">
+                        <label for="fromDate">De : </label>
+                        <input type="date" id="fromDate" class="form-control" ng-model="genericObject[listId + 'fromDate']" />
+                    </div>
+                    <div class="form-group col-sm-6 col-xs-6 col-md-6 col-sm-6">
+                        <label for="toDate">A : </label>
+                        <input type="date" id="toDate" class="form-control" ng-model="genericObject[listId + 'toDate']" />
+                    </div>
+                </div>
+        </form>
+        <div class="col-xs-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div ng-include="'notelist'"></div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="notelist">
+        <h3>Liste</h3>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="genericObject[listId+'displayAll']">Afficher tous
+            </label>
+        </div>
+        <div ng-repeat="notelistItem in todo.notelist | filter : displayNoteListitem">
+            <p ng-class="{strikethrough:notelistItem.done,'bold':notelistItem.important}"><a href="" ng-click="collapseNoteListItem(listId, notelistItem)">{{buildLabelNoteListItem(notelistItem.description)}}</a>
+                <a class="pull-right" href="" ng-click="removeNoteListItem(todo, notelistItem)"><i class="fa fa-times" ></i></a>
+                <a class="pull-right" href="" ng-click="upNoteListItem(todo, notelistItem)"><i class="fa fa-arrow-up" ></i></a>
+                <a class="pull-right" href="" ng-click="downNoteListItem(todo, notelistItem)"><i class="fa fa-arrow-down" ></i></a>
+            </p>
+            <div class="panel panel-default" ng-class="{'panel-danger':notelistItem.important}" ng-cloak>
+                <div class="panel-body" ng-if="! isCollapsedNoteListItem(listId, notelistItem)">
+                    <form class="form" role="form" id="items-form">
+                        <textarea class="form-control" placeholder="Description" id="description" ng-model="notelistItem.description" rows="5"></textarea>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="notelistItem.done">Vu
+                            </label>
+                        </div>
+
+                        <div class="checkbox ">
+                            <label>
+                                <input type="checkbox" ng-model="notelistItem.important">Important
+                            </label>
+                        </div>
+                        <button class="btn btn-primary fa fa-share" type="button" ng-click="buildItemFromNoteListItem(todo, notelistItem, listId)"></button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <form class="form" role="form" id="items-form" ng-submit="addNoteListItem(listId, todo)">
+            <input class="form-control" ng-model="newNotelistItem[listId].description" placeholder="Autre chose ...">
+        </form>
+    </script>
+
+
+    <script type="text/ng-template" id="delayModalContent.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Delay {{labelItem(item)}}</h4>
+        </div>
+
+        <p>Date de début : {{item.fromDate}}</p>
+        <p>Date de fin : {{item.toDate}}</p>
+
+        <br>
+        <br>
+        <div class="btn-group col-lg-9 col-xs-9 col-md-9 col-sm-9" role="group">
+            <button type="button" class="btn btn-primary" ng-click="moment('now')">Commencer aujourd hui</button>
+            <button type="button" class="btn btn-primary" ng-click="delay(1, 'days')">Commencer demain</button>
+            <button type="button" class="btn btn-primary" ng-click="delay(1, 'weeks')">Commencer dans une semaine</button>
+            <button type="button" class="btn btn-primary" ng-click="duration(0, 'days')">Mettre une durée nulle</button>
+            <button type="button" class="btn btn-primary" ng-click="duration(1, 'days')">Mettre une durée d une journée</button>
+            <button type="button" class="btn btn-primary" ng-click="duration(1, 'months')">Mettre une durée d un mois</button>
+            <button type="button" class="btn btn-primary" ng-click="delay(1, 'day')">Remettre d une journée</button>
+            <button type="button" class="btn btn-primary" ng-click="delay(1, 'week')">Remettre d une semaine</button>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="IncludeModalContent.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Add {{item.description.substring(0,40)}} to another</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form class="form-horizontal col-xs-12 col-sm-12 col-md-6 col-lg-6" role="form" id="todo-form">
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-label="..." placeholder="Rechercher ..." ng-model="search.text">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="search.text=''"><i class="fa fa-times-circle"></i></button>
+                    </span>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div ng-repeat="todo in searchedTodos(todos)" ng-cloak class="panel" ng-class="'panel-' + status(todo)">
+                    <div class="panel-heading">
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-primary" type="button" ng-click="addAsItemList(todo)">Add as item list</button>
+                            <button class="btn btn-primary" type="button" ng-click="merge(todo)">Merge inside</button>
+                        </div>
+                        <p ng-class="{strikethrough:isCompleted(todo)}"><a href=""><i class="fa" ng-class="{'fa-tasks':(todo.type=='task'), 'fa-file-text':(todo.type=='note'),'fa-lightbulb-o':(todo.type=='idea'),'fa-question':(todo.type=='question')}" ng-cloak></i>  {{labelItem(todo)}}<div ng-if="todo.description.trim().length==0">-None-</div></a>
+                        </p>
+                        <span class="badge">
+                                        <i class="fa fa-line-chart"></i>  {{todo.status}}
+                            </span>
+                        <span class="badge" ng-if="todo.actor">
+                                        <i class="fa fa-user"></i>  {{todo.actor}}
+                            </span>
+                        <span class="badge" ng-if="todo.avecqui">
+                                        <i class="fa fa-users"></i>  {{todo.avecqui}}
+                            </span>
+                        <span class="badge" ng-if="todo.project">
+                                        <i class="fa fa-folder-o"></i>  {{todo.project}}
+                            </span>
+                        <span class="badge" ng-if="todo.notelist && (todo.notelist.length>0)">
+                                        <i class="fa fa-list"></i>
+                            </span>
+                        <span class="badge" ng-if="todo.comment && todo.comment.trim()!=''">
+                                        <i class="fa fa-commenting"> </i>
+                            </span>
+                        <span class="badge" ng-if="todo.history && todo.history.length">
+                                        <i class="fa fa-history"> </i>
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+
+    </script>
+
+    <script type="text/ng-template" id="itemList">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <br>
+            <div class="col-xs-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="input-group">
+                    <div class="input-group-btn">
+
+                        <div class="btn-group">
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-alt"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="name in listNamedPrefs()"><a href="" ng-click="loadNamedPrefs(name, listId)">{{name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-filter"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="" ng-click="setFilterType(null, listId)">pas de selection</a>
+                                </li>
+                                <li ng-repeat="filterType in filterTypes">
+                                    <a href="" ng-click="setFilterType(filterType, listId)">{{filterType.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" ng-if="filterType[listId]">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{filterType[listId] ? filterType[listId].name : '-'}}<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="dvf in filterTypeToDefaultValuesFilters[filterType[listId].code]">
+                                    <a href="" ng-click="changeFilter(filterType[listId].code,dvf.code, listId)">{{dvf.name}}</a>
+                                </li>
+                                <li ng-repeat="type in filterTypeToList[filterType[listId].code] | filter : '!!' | orderBy: 'toString()' " ng-if="(a=count(listId, filterType[listId].code, type, filteredTodos[listId]))>0"><a href="" ng-click="changeFilter(filterType[listId].code,type, listId)">{{type}}<span class="badge" >{{a}}</span></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sort-amount-desc"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="" ng-click="setSortKey(null, listId)">Ordre de creation</a>
+                                </li>
+                                <li><a href="" ng-click="setSortKey('urgence', listId)">Ordre d urgence</a>
+                                </li>
+                                <li><a href="" ng-click="setSortKey('fromDate', listId)">Ordre de date de début</a>
+                                </li>
+                                <li><a href="" ng-click="setSortKey('toDate', listId)">Ordre de date de fin</a>
+                                </li>
+                                <li><a href="" ng-click="setSortKey('modifDate', listId)">Les plus anciennement modifiées</a>
+                                </li>
+                                <li><a href="" ng-click="setSortKey('recentModifDate', listId)">Les dernières modifiées</a>
+                                </li>
+                                <li><a href="" ng-click="setSortKey('customlist', listId)">Ordre manuel</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary dropdown-toggle" aria-expanded="false" ng-click="clearList(listId)"><i class="fa fa-times-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Chercher..." ng-model="filter[listId].search" uib-typeahead="item for item in getSearchValues($viewValue)" typeahead-template-url="searchResultTemplate" typeahead-focus-first="false" typeahead-on-select="selectSearchValue($item, listId)" ng-blur="selectSearchValue(filter[listId].search, listId)">
+                </div>
+                <br>
+            </div>
+            <br>
+            <div>
+
+                <span class="badge" ng-if="titles[listId]">
+                    Liste : {{titles[listId]}}
+                </span>
+                <span class="badge">
+                <i class="fa fa fa-arrows-v"></i>  {{filteredTodos[listId].length}} items
+                </span>
+
+
+                <span class="badge" ng-repeat="filterType in filterTypes" ng-if="filter[listId][filterType.code] &&('all'!=filter[listId][filterType.code])">
+                <i class="fa" ng-cloak ng-class="icons[filterType.code]"></i>  {{filter[listId][filterType.code]}} <a href="" ng-click="changeFilter([filterType.code], null, listId)"><i class="fa fa-times-circle"></i></a>
+                </span>
+
+                <span class="badge" ng-if="filter[listId].search">
+                <i class="fa fa-search"></i>  {{filter[listId].search}} <a href="" ng-click="filter[listId].search = '';savePrefs();"><i class="fa fa-times-circle"></i></a>
+                </span>
+
+                <span class="badge">
+                <i class="fa fa-sort-amount-desc"></i>  {{filter[listId].sort ? filter[listId].sort : 'creation'}}
+                </span>
+            </div>
+
+            <div>
+                    <div class="panel panel-default" ng-drop="true" ng-drop-success="onDropComplete($index, $data, $event, 'top', listId)">
+                        <div class="panel-heading">
+                            <p><a href="" ng-click="addItem(listId, 'task')"><i class="fa fa-plus-circle" ></i>  Ajouter une tache</a>  -  <a href="" ng-click="addItem(listId, 'note')"><i class="fa fa-plus-circle" ></i>  Ajouter une note</a>  -  <a href="" ng-click="addItem(listId, 'idea')"><i class="fa fa-plus-circle" ></i>  Ajouter une idée</a>  -  <a href="" ng-click="addItem(listId, 'question')"><i class="fa fa-plus-circle" ></i>  Ajouter une question</a></p>
+                            
+                        </div>
+                        <div class="panel-body" ng-if="newTodo[listId]" ng-init="todo=newTodo[listId]">
+                            <div class="form-group"> 
+                                <textarea focus="true" class="form-control" placeholder="Add description" ng-model="todo.description" rows="5"></textarea>
+                            </div>
+                            <button class="btn btn-primary" type="button" ng-click="addNewItem(listId)">Ajouter</button>
+                            <button class="btn btn-warning" type="button" ng-click="addItem(listId)">Annuler</button>
+
+                        </div>
+                    </div>
+                    <!--la liste d'éléments-->
+                    <div ng-repeat="todo in filteredTodosFn(listId)" ng-drop="true" ng-drop-success="onDropComplete($index, $data, $event, todo, listId)">
+
+                        <div ng-cloak class="panel" ng-class="'panel-' + status(todo)">
+                            <div class="panel-heading">
+                                <div class="pull-right">
+                                    <a uib-popover-template="'actionList'" popover-title="Actions" popover-placement="left" popover-trigger="focus" type="button" class="btn btn-primary fa fa-ellipsis-h" tabindex="0" popover-popup-close-delay="200"></a>
+                                </div>
+
+                                <p ng-class="{strikethrough:isCompleted(todo)}"><span class="badge handle-over" ng-drag="true" ng-drag-data="{item:todo, listId:listId}" ng-center-anchor="true"><i class="fa" ng-class="{'fa-tasks':(todo.type=='task'), 'fa-file-text':(todo.type=='note'),'fa-lightbulb-o':(todo.type=='idea'),'fa-question':(todo.type=='question')}" ng-cloak></i></span><a href="" ng-click="editItemOrCollapse(todo, listId)"> {{labelItem(todo)}}<div ng-if="todo.description.trim().length==0">-None-</div></a>
+                                </p>
+                                <span class="badge">
+                                        <i class="fa fa-line-chart"></i> {{todo.status}}
+                            </span>
+                                <span class="badge" ng-if="todo.actor">
+                                        <i class="fa fa-user"></i> {{todo.actor}}
+                            </span>
+                                <span class="badge" ng-if="todo.avecqui && !todo.avecqui.forEach">
+                                        <i class="fa fa-users"></i> {{todo.avecqui}}
+                            </span>
+                                <span ng-if="todo.avecqui && todo.avecqui.forEach" ng-repeat="person in todo.avecqui track by $index" class="badge">
+                                        <i class="fa fa-users"></i> {{person}}
+                            </span>
+                            <span ng-if="todo.tag && todo.tag.forEach" ng-repeat="tag in todo.tag track by $index" class="badge">
+                                <i class="fa fa-tag"></i> {{tag}}
+                            </span>
+                                <span class="badge" ng-if="todo.project">
+                                        <i class="fa fa-folder-o"></i> {{todo.project}}
+                            </span>
+                                <span class="badge" ng-if="todo.notelist && (todo.notelist.length>0)">
+                            <i class="fa fa-list"></i> {{countChecked(todo)}}
+                            </span>
+                                <span class="badge" ng-if="todo.comment && todo.comment.trim()!=''">
+                                        <i class="fa fa-commenting"> </i>
+                            </span>
+                                <span class="badge" ng-if="todo.history && todo.history.length">
+                                        <i class="fa fa-history"></i> {{todo.history.length}}
+                            </span>
+                                <br>
+                                <span class="label label-primary" ng-if="todo.fromDate">{{todo.fromDate}} -> {{todo.toDate}}</span>
+
+                                <span class="label label-info" ng-if="todo.creationDate">créé le {{todo.creationDate}}</span>
+
+                                <span class="label label-info" ng-if="todo.modifDate">modif le {{todo.modifDate}}</span>
+                                <br>
+                            </div>
+
+                            <div class="panel-body" ng-if="!isCollapsed(listId, todo)">
+                                <div ng-include="detailCollapsed[listId].detail"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" ng-if="!showAll[listId] && filteredTodos[listId].length>=20">
+                        <div class="panel-heading">
+                            <p><a href="" ng-click="showAll[listId] = true"><i class="fa fa-plus-circle" ></i>Show all items</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </script>
+
+    <script type="text/ng-template" id="searchResultTemplate">
+        <a href="" ng-click="">
+            <i class="fa" ng-class="{'fa-user':match.label.type=='avecqui', 'fa-folder-o':match.label.type=='project', 'fa-tag':match.label.type=='tag'}" ng-cloak></i>
+            <span ng-bind-html="match.label.name | uibTypeaheadHighlight:query"></span>
+        </a>
+    </script>
+
+    <script type="text/ng-template" id="actionList">
+        <div>
+            <div class="btn-group inline center-block" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary" ng-click="editComment(todo, listId)"><i class="fa fa-commenting"></i>
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="delayTask(todo, listId)"><i class="fa fa-calendar-o"></i>
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="includeItem(todo)"><i class="fa fa-share"></i>
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="changeViewToDispItem(todo)"><i class="fa fa-print"></i>
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="sendEmail('gael.vignon@vif.fr', todo)"><i class="fa fa-envelope-o"/></button>
+                <button type="button" class="btn btn-primary" ng-click="addGeolocationHere(todo)"><i class="fa fa-map-marker"/></button> 
+                <button type="button" class="btn btn-danger" ng-click="archiveItem(todo)"><i class="fa fa-trash"></i>
+                </button>
+                <br>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="wideList">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <br>
+            <br>
+            <h3><span class="label label-primary pull-center"><a href="" ng-click="clearList(listId)"><i class="fa fa-plus-circle"></i></a></span></h3>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="displayItem">
+        <br>
+        <div class="row">
+            <p>
+                <span>
+                    <a class="btn btn-info" role="button" href ng-click="changeViewToList()"><i class="fa fa-arrow-left"></i>  Revenir à la vue par liste<a>
+                </span>
+            </p>
+            <div class="jumbotron">
+                <div id="mdCss" marked="serialize(item)">
+
+                </div>
+            </div>
+        </div>
+    </script>
+
+
+
+    <script type="text/ng-template" id="ManageItems.html">
+        <div class="modal-header">
+            <h4 class="modal-title">Manage items {{desc.name}}</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="control-label col-lg-3 col-xs-3 col-md-3" for="type">Nouvel élément {{desc.name}}</label>
+
+                    <div class="input-group col-xs-8 col-md-8 col-lg-8">
+                        <input type="text" class="form-control" aria-label="..." placeholder="Nom" ng-model="newItem.text">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="insertNew()"><i class="fa fa-plus-circle"></i></button>
+                    </span>
+                    </div>
+                </div>
+            </form>
+            <div ui-tree id="tree-root">
+                <ol ui-tree-nodes ng-model="itemList">
+                    <li ng-repeat="item in itemList" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                </ol>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Abandonner</button>
+            <button class="btn btn-ok" type="button" ng-click="ok()">Ok</button>
+        </div>
+
+    </script>
+
+
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle class="tree-node tree-node-content">
+            <a class="btn btn-success btn-xs" ng-if="item.children && item.children.length > 0" data-nodrag ng-click="toggle(this)"><span
+            class="glyphicon"
+            ng-class="{
+              'glyphicon-chevron-right': collapsed,
+              'glyphicon-chevron-down': !collapsed
+            }"></span></a> {{item.name}}
+        </div>
+        <ol ui-tree-nodes="" ng-model="item.children" ng-class="{hidden: collapsed}">
+            <li ng-repeat="item in item.children" ui-tree-node ng-include="'nodes_renderer.html'">
+            </li>
+        </ol>
+    </script>
+</body>
+
+</html>
