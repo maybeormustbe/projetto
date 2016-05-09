@@ -24,16 +24,17 @@ gulp.task('save-data', shell.task("firebase data:get / > svg/svg_data_"+ now+".j
 
 gulp.task('git', shell.task("git add . * && git commit -m \"Commit "+ now + "\""));
 
-gulp.task('backup-files', shell.task(["cp css/todo.css D:\\svg_projects\\",
-"cp index.html /cygdrive/d/svg_Aidememoire/",
-"cp gulpfile.js /cygdrive/d/svg_Aidememoire/",
-"cp js/controllers/todoCtrl.js /cygdrive/d/svg_Aidememoire/",
-"cp firebase.json /cygdrive/d/svg_Aidememoire/",
-"cp memoperso.txt /cygdrive/d/svg_Aidememoire/",
-"cp package.json /cygdrive/d/svg_Aidememoire/",
-"cp readme.md /cygdrive/d/svg_Aidememoire/",
-"cp todo.md /cygdrive/d/svg_Aidememoire/",
-"cp svg/svg_data_*.json /cygdrive/d/svg_Aidememoire/"]));
+gulp.task('backup-files', 
+    shell.task(["cp css/todo.css D:\\svg_projects\\",
+        "cp index.html /cygdrive/d/svg_Aidememoire/",
+        "cp gulpfile.js /cygdrive/d/svg_Aidememoire/",
+        "cp js/controllers/todoCtrl.js /cygdrive/d/svg_Aidememoire/",
+        "cp firebase.json /cygdrive/d/svg_Aidememoire/",
+        "cp memoperso.txt /cygdrive/d/svg_Aidememoire/",
+        "cp package.json /cygdrive/d/svg_Aidememoire/",
+        "cp readme.md /cygdrive/d/svg_Aidememoire/",
+        "cp todo.md /cygdrive/d/svg_Aidememoire/",
+        "cp svg/svg_data_*.json /cygdrive/d/svg_Aidememoire/"]));
 
 var paths = {
   scripts:"./js/**/*.js",
@@ -125,14 +126,13 @@ gulp.task("dev",gulpSequence( "cleandev", "builddev", "runandwatch"));
 
 gulp.task("help", function(){
   console.log("--------------------------------------")
-  console.log("gulp build indications for tasko");
+  console.log("-gulp build indications for projetto.-");
   console.log("--------------------------------------")
-  console.log("default       : build for dev and launch app for dev with watch files");
-  console.log("goprod        : complete sequence for cleaning, building, commit and deploy");
-  console.log("save-data     : backup the data in a local file");
-  console.log("help          : print  this help message");
-  console.log("allbutprod    : clean commit and backup, but don't deploy");
-  console.log("dev           : run dev server");
+  console.log("build         : clean and build app");
+  console.log("dev           : clean, build and run with hot-deployment");
+  console.log("push          : commit and push to master");
+  console.log("goprod        : complete sequence for pushing and deploying to port 80");
+  console.log("save-data     : backup the data in a local file (in ~/svg folder)");
   console.log("<default>     : run help command")
   console.log("--------------------------------------")
 })
